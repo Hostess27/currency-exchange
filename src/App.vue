@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+   <CurrencyHeader />
+   <ConwertMain />
+   <ButtonConwert />
+   <RateCurrent />
+   <StockpileConwert />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import CurrencyHeader from './components/CurrencyHeader.vue'
+import ConwertMain from './components/ConwertMain.vue'
+import ButtonConwert from './components/ButtonConwrt.vue'
+import RateCurrent from './components/RateCurrent.vue'
+import StockpileConwert from './components/StockpileConwert.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+   CurrencyHeader, ConwertMain, ButtonConwert, RateCurrent, StockpileConwert
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
