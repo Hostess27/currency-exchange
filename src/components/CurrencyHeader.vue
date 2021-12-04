@@ -2,7 +2,7 @@
   <div class="header-color">
     <cuur-header class="header-flex"
       ><h1 class="logo">DLExchanger</h1>
-      <a href="#"></a>Check ID</cuur-header
+      <a href="#" class="check">Check ID</a></cuur-header
     >
   </div>
 </template>
@@ -25,6 +25,10 @@ export default {};
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.check{
+  color: white;
+  text-decoration: none;
 }
 </style>
 
