@@ -1,44 +1,45 @@
 <template>
-  <form @submit.prevent="convert">
-    <div>
-      <label>value</label>
-      <input v-model.number="inputAmount" />
-    </div>
-    <div>
-      <label>from currency</label>
-      <select v-model="fromCurrency">
-        <option
-          v-for="currency of fromCurrencies"
-          :key="currency.value"
-          :value="currency"
-        >
-          {{ currency.name }}
-        </option>
-      </select>
-    </div>
-    <button @click="selected" type="button"></button>
-    <div>
-      <label>value</label>
-      <input v-model="result" />
-    </div>
-    <div>
-      <label>to currency</label>
-      <select v-model="toCurrency">
-        <option
-          v-for="currency of toCurrencies"
-          :key="currency.value"
-          :value="currency"
-        >
-          {{ currency.name }}
-        </option>
-      </select>
-    </div>
-    <button type="submit">convert</button>
-    <div>
-      {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
-      {{ toCurrency.name }}
-    </div>
-  </form>
+  <div>
+    <h2 class="main-name">Обменник</h2>
+    <form class="form-main" @submit.prevent="convert">
+      <div>
+        <!-- <label>from currency</label> -->
+        <select class="slt" v-model="fromCurrency">
+          <option
+            v-for="currency of fromCurrencies"
+            :key="currency.value"
+            :value="currency"
+          >
+            {{ currency.name }}
+          </option>
+        </select>
+
+        <!-- <label>value</label> -->
+        <input class="input-main" v-model.number="inputAmount" />
+
+        <!-- <button type="button" @click="s"></button> -->
+        <!-- <label>value</label> -->
+      </div>
+      <div>
+        <select class="slt" v-model="toCurrency">
+          <option
+            v-for="currency of toCurrencies"
+            :key="currency.value"
+            :value="currency"
+          >
+            {{ currency.name }}
+          </option>
+        </select>
+        <!-- <label>to currency</label> -->
+        <input class="input-main" v-model="result" />
+      </div>
+      <button type="submit">Укажите сумму</button>
+      <!-- <div>
+        {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
+        {{ toCurrency.name }}
+      </div> -->
+    </form>
+  </div>
 </template>
 
 <script>
@@ -85,5 +86,37 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.main-name {
+  color: rgb(60, 60, 245);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.form-main {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 
+}
+.slt {
+  margin-right: 10px;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid rgb(60, 60, 245);
+  background-color: transparent;
+  color: inherit;
+  outline: none;
+}
+.input-main {
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid rgb(60, 60, 245);
+  background-color: transparent;
+  color: inherit;
+  outline: none;
+}
 </style>
