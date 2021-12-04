@@ -15,7 +15,7 @@
         </select>
 
         <!-- <label>value</label> -->
-        <input class="input-main" v-model.number="inputAmount" />
+        <input type="number" class="input-main" v-model.number="inputAmount" />
 
         <!-- <button type="button" @click="s"></button> -->
         <!-- <label>value</label> -->
@@ -31,7 +31,7 @@
           </option>
         </select>
         <!-- <label>to currency</label> -->
-        <input class="input-main" v-model="result" />
+        <input type="number" class="input-main" v-model="result" />
       </div>
       <button type="submit">Укажите сумму</button>
       <!-- <div>
