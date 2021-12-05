@@ -31,7 +31,14 @@
         </select>
         <input type="number" class="input-main" v-model="result" />
       </div>
-      <button type="submit" @click="$router.push({name: 'success'})">Укажите сумму</button>
+      <button
+        class="btnCurrent"
+        type="submit"
+        @click="$router.push({ name: 'success' })"
+        :disabled="isDisabledButton"
+      >
+        {{ isDisabledButton ? "Укажите сумму" : "Обменять" }}
+      </button>
 
       <!-- <div>
         {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
@@ -43,15 +50,16 @@
 
 <script>
 import { CURRENCIES } from "@/utils/currency.const.js";
+// import { RESERVED } from '@/utils/reserve.const.js'
 
 export default {
   name: "App",
   data() {
     return {
-      inputAmount: 0,
+      inputAmount: "",
       fromCurrency: "",
       toCurrency: "",
-      result: 0,
+      result: "",
     };
   },
   computed: {
@@ -67,6 +75,9 @@ export default {
     },
     formValid() {
       return +this.inputAmount > 0 && this.fromCurrency && this.toCurrency;
+    },
+    isDisabledButton() {
+      return !this.inputAmount || !this.toCurrency || !this.fromCurrency;
     },
   },
   methods: {
@@ -87,9 +98,6 @@ export default {
         this.inputAmount,
       ];
     },
-    enableBtn(){
-
-    }
   },
 };
 </script>
