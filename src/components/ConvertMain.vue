@@ -31,7 +31,7 @@
         </select>
         <input type="number" class="input-main" v-model="result" />
       </div>
-      <button type="submit">Укажите сумму</button>
+      <button type="submit" @click="$router.push({name: 'success'})">Укажите сумму</button>
 
       <!-- <div>
         {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
@@ -87,6 +87,9 @@ export default {
         this.inputAmount,
       ];
     },
+    enableBtn(){
+
+    }
   },
 };
 </script>
