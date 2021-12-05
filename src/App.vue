@@ -1,32 +1,18 @@
 <template>
   <div id="app">
-   <CurrencyHeader />
-   <ConwertMain />
-   <ButtonSwap />
-   <ButtonConwert />
-   <RateCurrent />
-   <StockpileConwert />
+    <CurrencyHeader />
+    <div><router-view></router-view></div>
   </div>
 </template>
 
 <script>
-import CurrencyHeader from './components/CurrencyHeader.vue'
-import ConwertMain from './components/ConwertMain.vue'
-import ButtonConwert from './components/ButtonConwrt.vue'
-import RateCurrent from './components/RateCurrent.vue'
-import StockpileConwert from './components/StockpileConwert.vue'
-import ButtonSwap from "./components/ButtonSwap.vue";
-
-
+import CurrencyHeader from "@/components/CurrencyHeader.vue";
 
 export default {
-  name: 'App',
-  components: {
-   CurrencyHeader, ConwertMain, ButtonConwert, RateCurrent, StockpileConwert, ButtonSwap,
-  }
-}
+  name: "App",
+  components: { CurrencyHeader },
+};
 </script>
 
 <style>
-
 </style>

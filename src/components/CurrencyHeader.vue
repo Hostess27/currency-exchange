@@ -1,10 +1,10 @@
 <template>
-  <div class="header-color">
-    <cuur-header class="header-flex"
+  <header class="header-color">
+    <div class="header header-flex"
       ><h1 class="logo">DLExchanger</h1>
-      <a href="#" class="check">Check ID</a></cuur-header
+      <a href="#" class="check">Check ID</a></div
     >
-  </div>
+  </header>
 </template>
 
 <script>

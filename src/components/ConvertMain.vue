@@ -3,7 +3,6 @@
     <h2 class="main-name">Обменник</h2>
     <form class="form-main" @submit.prevent="convert">
       <div>
-        <!-- <label>from currency</label> -->
         <select class="slt" v-model="fromCurrency">
           <option
             v-for="currency of fromCurrencies"
@@ -13,13 +12,13 @@
             {{ currency.name }}
           </option>
         </select>
-
-        <!-- <label>value</label> -->
         <input type="number" class="input-main" v-model.number="inputAmount" />
-
-        <!-- <button type="button" @click="s"></button> -->
-        <!-- <label>value</label> -->
       </div>
+      <button class="btn-arrow" @click="onClick" type="button">
+        <svg class="arrow" width="20" height="20">
+          <use href="@/assets/arrow.svg#loop"></use>
+        </svg>
+      </button>
       <div>
         <select class="slt" v-model="toCurrency">
           <option
@@ -30,10 +29,10 @@
             {{ currency.name }}
           </option>
         </select>
-        <!-- <label>to currency</label> -->
         <input type="number" class="input-main" v-model="result" />
       </div>
       <button type="submit">Укажите сумму</button>
+
       <!-- <div>
         {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
         {{ toCurrency.name }}
@@ -80,11 +79,18 @@ export default {
       const rates = await res.json();
       this.result = this.inputAmount * rates[this.toCurrency.value];
     },
+    onClick() {
+      [this.fromCurrency, this.toCurrency, this.inputAmount, this.result] = [
+        this.toCurrency,
+        this.fromCurrency,
+        this.result,
+        this.inputAmount,
+      ];
+    },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .main-name {
   color: rgb(60, 60, 245);
@@ -100,7 +106,6 @@ export default {
   width: 600px;
   margin-left: auto;
   margin-right: auto;
-
 }
 .slt {
   margin-right: 10px;
@@ -111,6 +116,16 @@ export default {
   color: inherit;
   outline: none;
 }
+
+.btn-arrow {
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+.arrow {
+  fill: rgb(60, 60, 245);
+}
+
 .input-main {
   padding: 10px;
   border: none;
