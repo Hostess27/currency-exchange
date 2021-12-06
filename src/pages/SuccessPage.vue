@@ -1,14 +1,11 @@
 <template>
   <div>
-    <MessageOperation />
-    <router-view />
+    <p>ВСЁ ГУД</p>
   </div>
 </template>
 
 <script>
-import MessageOperation from '@/components/MessageOperation.vue'
 export default {
-  name: "success",
-  components: {MessageOperation}
+  name: "SuccessPage",
 };
 </script>

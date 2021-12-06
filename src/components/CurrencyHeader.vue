@@ -1,9 +1,11 @@
 <template>
   <header class="header-color">
-    <div class="header header-flex"
-      ><h1 class="logo">DLExchanger</h1>
-      <a href="#" class="check">Check ID</a></div
-    >
+    <div class="header header-flex">
+      <router-link class="logo" to="/">
+        <h1>DLExchanger</h1>
+      </router-link>
+      <div class="check">Check ID</div>
+    </div>
   </header>
 </template>
 
@@ -19,18 +21,14 @@ export default {};
 }
 .logo {
   color: white;
-
+  text-decoration: none;
 }
 .header-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.check{
+.check {
   color: white;
-  text-decoration: none;
 }
 </style>
-
-
-

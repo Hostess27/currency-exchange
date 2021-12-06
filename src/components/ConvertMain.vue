@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="main-name">Обменник</h2>
-    <form class="form-main" @submit.prevent="convert">
+    <form class="form-main" novalidate @submit.prevent="onSubmit">
       <div>
         <select class="slt" v-model="fromCurrency">
           <option
@@ -12,11 +12,17 @@
             {{ currency.name }}
           </option>
         </select>
-        <input type="number" class="input-main" v-model.number="inputAmount" />
+        <input
+          v-model.number="inputAmount"
+          class="input-main"
+          type="number"
+          min="0"
+          @input="onChangeInputAmount"
+        />
       </div>
-      <button class="btn-arrow" @click="onClick" type="button">
+      <button class="btn-arrow" type="button" @click="onClickSwapCurrencies">
         <svg class="arrow" width="20" height="20">
-          <use href="@/assets/arrow.svg#loop"></use>
+          <use href="@/assets/arrow.svg#loop" />
         </svg>
       </button>
       <div>
@@ -29,41 +35,43 @@
             {{ currency.name }}
           </option>
         </select>
-        <input type="number" class="input-main" v-model="result" />
+        <input
+          v-model="outputAmount"
+          class="input-main"
+          type="number"
+          min="0"
+          @input="onChangeOutputAmount"
+        />
       </div>
 
-      <button
-        class="btnCurrent"
-        type="submit"
-        @click="$router.push({ name: 'success' })"
-        :disabled="isDisabledButton"
-      >
-        {{ isDisabledButton ? "Укажите сумму" : "Обменять" }}
+      <button class="btnCurrent" type="submit" :disabled="!isFormValid">
+        {{ isFormValid ? "Обменять" : "Укажите сумму" }}
       </button>
-
-      <div>
-        {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
-        {{ toCurrency.name }}
-      </div>
     </form>
   </div>
 </template>
 
 <script>
-import { CURRENCIES } from "@/utils/currency.const.js";
-// import { RESERVED } from '@/utils/reserve.const.js'
+import { mapGetters, mapMutations } from "vuex";
+import { getRatesFromApi } from "@/services/rate-api.services";
+import { CURRENCIES } from "@/utils/currency.const";
+import { RESERVE } from "@/utils/reserve.const";
+
+let rates = [];
 
 export default {
-  name: "App",
+  name: "convert-main",
   data() {
     return {
-      inputAmount: "",
-      fromCurrency: "",
-      toCurrency: "",
-      result: "",
+      inputAmount: 0,
+      fromCurrency: CURRENCIES[0],
+      toCurrency: CURRENCIES[1],
+      outputAmount: 0,
     };
   },
   computed: {
+    ...mapGetters(["currentRate"]),
+
     fromCurrencies() {
       return CURRENCIES.filter(
         (currency) => currency.value !== this.toCurrency.value
@@ -74,43 +82,64 @@ export default {
         (currency) => currency.value !== this.fromCurrency.value
       );
     },
-    formValid() {
+    isFormValid() {
       return +this.inputAmount > 0 && this.fromCurrency && this.toCurrency;
     },
-    isDisabledButton() {
-      return !this.inputAmount || !this.toCurrency || !this.fromCurrency;
+  },
+  watch: {
+    fromCurrency(newValue) {
+      const rate = rates.find((rate) => rate.currency === newValue.value);
+
+      this.setCurrentRate(rate);
     },
   },
-  methods: {
-    async convert() {
-      if (!this.formValid) return;
+  async mounted() {
+    rates = await getRatesFromApi();
 
-      const res = await fetch(
-        `https://api.kuna.io:443/v3/exchange-rates/${this.fromCurrency.value}`
-      );
-      const rates = await res.json();
-      this.result = this.inputAmount * rates[this.toCurrency.value];
+    const rate = rates.find(
+      (rate) => rate.currency === this.fromCurrency.value
+    );
+
+    this.setCurrentRate(rate);
+  },
+  methods: {
+    ...mapMutations(["setCurrentRate"]),
+
+    onSetCurrentRate() {},
+
+    onChangeInputAmount() {
+      this.outputAmount =
+        this.inputAmount * this.currentRate[this.toCurrency.value];
     },
-    onClick() {
-      [this.fromCurrency, this.toCurrency, this.inputAmount, this.result] = [
+
+    onChangeOutputAmount() {
+      this.inputAmount =
+        this.outputAmount / this.currentRate[this.toCurrency.value];
+    },
+
+    onSubmit() {
+      if (!this.isFormValid) return;
+
+      if (+this.outputAmount <= RESERVE[this.toCurrency.value]) {
+        this.$router.push({ name: "success" });
+      }
+    },
+    onClickSwapCurrencies() {
+      [
+        this.fromCurrency,
+        this.toCurrency,
+        this.inputAmount,
+        this.outputAmount,
+      ] = [
         this.toCurrency,
         this.fromCurrency,
-        this.result,
+        this.outputAmount,
         this.inputAmount,
       ];
     },
   },
 };
-
-//Это в кнопку!!!!!!!  @click="$router.push({ name: 'success' })"
 </script>
-
-
-
-
-
-
-
 
 <style scoped>
 .main-name {
@@ -133,26 +162,5 @@ export default {
   padding: 10px;
   border: none;
   border-bottom: 1px solid rgb(60, 60, 245);
-  background-color: transparent;
-  color: inherit;
-  outline: none;
-}
-
-.btn-arrow {
-  background-color: inherit;
-  border: none;
-  outline: none;
-}
-.arrow {
-  fill: rgb(60, 60, 245);
-}
-
-.input-main {
-  padding: 10px;
-  border: none;
-  border-bottom: 1px solid rgb(60, 60, 245);
-  background-color: transparent;
-  color: inherit;
-  outline: none;
 }
 </style>

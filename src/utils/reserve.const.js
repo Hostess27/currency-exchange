@@ -1,5 +1,6 @@
-export const RESERVED = [
-  { name: "BTC", value: "4" },
-  { name: "UAH", value: "30000" },
-  { name: "ETH", value: "18" },
-];
+export const RESERVE = {
+  btc: 4,
+  uah: 30000,
+  eth: 18,
+  usd: 3500,
+};

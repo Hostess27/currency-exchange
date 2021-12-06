@@ -7,13 +7,12 @@
 </template>
 
 <script>
-
 import ConvertMain from "@/components/ConvertMain.vue";
 import RateCurrent from "@/components/RateCurrent.vue";
 import StockpileConwert from "@/components/StockpileConwert.vue";
 
 export default {
-  name: "main",
+  name: "MainPage",
   components: { ConvertMain, RateCurrent, StockpileConwert },
 };
 </script>
