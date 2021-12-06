@@ -41,7 +41,7 @@
         {{ isDisabledButton ? "Укажите сумму" : "Обменять" }}
       </button>
 
-      <div id="note">
+      <div>
         {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
         {{ toCurrency.name }}
       </div>
