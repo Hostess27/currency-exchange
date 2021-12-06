@@ -31,11 +31,11 @@
         </select>
         <input type="number" class="input-main" v-model="result" />
       </div>
-      
+
       <button
         class="btnCurrent"
         type="submit"
-       
+        @click="$router.push({ name: 'success' })"
         :disabled="isDisabledButton"
       >
         {{ isDisabledButton ? "Укажите сумму" : "Обменять" }}
@@ -101,10 +101,6 @@ export default {
     },
   },
 };
-
-
- 
-
 
 //Это в кнопку!!!!!!!  @click="$router.push({ name: 'success' })"
 </script>
