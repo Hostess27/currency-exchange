@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>Курс</p>
+  <div class="rate-position">
+    <p class="rate-text">Курс</p>
   </div>
 
   <!-- v-for="rate in this.$store.state.rate" -->
@@ -8,6 +8,7 @@
 
 <script>
 import {  mapGetters } from "vuex";
+import "@/style/variables.css";
 export default {
   name: "RateCurrent",
   props: {},
@@ -20,3 +21,13 @@ export default {
 
 };
 </script>
+<style scoped>
+.rate-position{
+  position: absolute;
+  top: 50%;
+  left: 50px;
+}
+.rate-text{
+  color: var(--dark-gray);
+}
+</style>

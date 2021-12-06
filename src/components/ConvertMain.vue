@@ -43,10 +43,11 @@
           @input="onChangeOutputAmount"
         />
       </div>
-
-      <button class="btnCurrent" type="submit" :disabled="!isFormValid">
-        {{ isFormValid ? "Обменять" : "Укажите сумму" }}
-      </button>
+      <div class="btnCurrent-flex">
+        <button class="btnCurrent" type="submit" :disabled="!isFormValid">
+          {{ isFormValid ? "Обменять" : "Укажите сумму" }}
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -56,17 +57,17 @@ import { mapGetters, mapMutations } from "vuex";
 import { getRatesFromApi } from "@/services/rate-api.services";
 import { CURRENCIES } from "@/utils/currency.const";
 import { RESERVE } from "@/utils/reserve.const";
-
+import "@/style/variables.css";
 let rates = [];
 
 export default {
   name: "convert-main",
   data() {
     return {
-      inputAmount: 0,
+      inputAmount: "",
       fromCurrency: CURRENCIES[0],
       toCurrency: CURRENCIES[1],
-      outputAmount: 0,
+      outputAmount: "",
     };
   },
   computed: {
@@ -147,6 +148,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  padding-bottom: 20px;
 }
 .form-main {
   display: flex;
@@ -161,6 +163,20 @@ export default {
   margin-right: 10px;
   padding: 10px;
   border: none;
-  border-bottom: 1px solid rgb(60, 60, 245);
+  border-bottom: 1px solid var(--primary-color);
+}
+.input-main {
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+}
+.btn-arrow {
+  background-color: inherit;
+  border: none;
+  fill: var(--primary-color);
+}
+.btnCurrent-flex{
+  position: absolute;
+  top: 50%;
 }
 </style>
