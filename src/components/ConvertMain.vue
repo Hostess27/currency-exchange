@@ -31,19 +31,20 @@
         </select>
         <input type="number" class="input-main" v-model="result" />
       </div>
+      
       <button
         class="btnCurrent"
         type="submit"
-        @click="$router.push({ name: 'success' })"
+       
         :disabled="isDisabledButton"
       >
         {{ isDisabledButton ? "Укажите сумму" : "Обменять" }}
       </button>
 
-      <!-- <div>
+      <div id="note">
         {{ inputAmount }} {{ fromCurrency.name }} is {{ result }}
         {{ toCurrency.name }}
-      </div> -->
+      </div>
     </form>
   </div>
 </template>
@@ -100,7 +101,20 @@ export default {
     },
   },
 };
+
+
+ 
+
+
+//Это в кнопку!!!!!!!  @click="$router.push({ name: 'success' })"
 </script>
+
+
+
+
+
+
+
 
 <style scoped>
 .main-name {
