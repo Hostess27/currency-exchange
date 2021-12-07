@@ -64,8 +64,8 @@ export default {
   name: "convert-main",
   data() {
     return {
-      inputAmount: 0,
-      outputAmount: 0,
+      inputAmount: '',
+      outputAmount: '',
     };
   },
   computed: {
