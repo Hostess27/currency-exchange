@@ -1,18 +1,16 @@
 <template>
-  <div>
+  <section class="container">
     <ConvertMain />
-    <RateCurrent />
-    <StockpileConwert />
-  </div>
+    <ExchangeInfo />
+  </section>
 </template>
 
 <script>
 import ConvertMain from "@/components/ConvertMain.vue";
-import RateCurrent from "@/components/RateCurrent.vue";
-import StockpileConwert from "@/components/StockpileConwert.vue";
+import ExchangeInfo from "@/components/ExchangeInfo.vue";
 
 export default {
   name: "MainPage",
-  components: { ConvertMain, RateCurrent, StockpileConwert },
+  components: { ConvertMain, ExchangeInfo },
 };
 </script>

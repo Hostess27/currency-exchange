@@ -43,9 +43,9 @@
           @input="onChangeOutputAmount"
         />
       </div>
-      <div class="btnCurrent-flex">
-        <button class="btnCurrent" type="submit" :disabled="!isFormValid">
-          {{ isFormValid ? "Обменять" : "Укажите сумму" }}
+      <div>
+        <button class="submit-btn" type="submit" :disabled="!isFormValid">
+          {{ buttonText }}
         </button>
       </div>
     </form>
@@ -55,24 +55,40 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { getRatesFromApi } from "@/services/rate-api.services";
-import { CURRENCIES } from "@/utils/currency.const";
 import { RESERVE } from "@/utils/reserve.const";
-import "@/style/variables.css";
+import { CURRENCIES } from "@/utils/currency.const";
+
 let rates = [];
 
 export default {
   name: "convert-main",
   data() {
     return {
-      inputAmount: "",
-      fromCurrency: CURRENCIES[0],
-      toCurrency: CURRENCIES[1],
-      outputAmount: "",
+      inputAmount: 0,
+      outputAmount: 0,
     };
   },
   computed: {
     ...mapGetters(["currentRate"]),
 
+    fromCurrency: {
+      get() {
+        return this.$store.getters["fromCurrency"];
+      },
+
+      set(value) {
+        this.$store.commit("setFromCurrency", value);
+      },
+    },
+    toCurrency: {
+      get() {
+        return this.$store.getters["toCurrency"];
+      },
+
+      set(value) {
+        this.$store.commit("setToCurrency", value);
+      },
+    },
     fromCurrencies() {
       return CURRENCIES.filter(
         (currency) => currency.value !== this.toCurrency.value
@@ -80,11 +96,28 @@ export default {
     },
     toCurrencies() {
       return CURRENCIES.filter(
-        (currency) => currency.value !== this.fromCurrency.value
+        (currency) =>
+          currency.value !== this.fromCurrency.value &&
+          this.currentRate[currency.value]
       );
     },
     isFormValid() {
-      return +this.inputAmount > 0 && this.fromCurrency && this.toCurrency;
+      return (
+        +this.inputAmount > 0 &&
+        this.fromCurrency &&
+        this.toCurrency &&
+        !this.isLowReserve
+      );
+    },
+    isLowReserve() {
+      return +this.outputAmount > RESERVE[this.toCurrency.value];
+    },
+    buttonText() {
+      return this.isLowReserve
+        ? "Не хватает денег в резерве"
+        : this.isFormValid
+        ? "Обменять"
+        : "Укажите сумму";
     },
   },
   watch: {
@@ -104,7 +137,7 @@ export default {
     this.setCurrentRate(rate);
   },
   methods: {
-    ...mapMutations(["setCurrentRate"]),
+    ...mapMutations(["setCurrentRate", "setResult"]),
 
     onSetCurrentRate() {},
 
@@ -119,11 +152,15 @@ export default {
     },
 
     onSubmit() {
-      if (!this.isFormValid) return;
+      if (!this.isFormValid || this.isLowReserve) return;
 
-      if (+this.outputAmount <= RESERVE[this.toCurrency.value]) {
-        this.$router.push({ name: "success" });
-      }
+      this.setResult({
+        inputAmount: this.inputAmount,
+        fromCurrency: this.fromCurrency.name,
+        outputAmount: this.outputAmount,
+        toCurrency: this.toCurrency.name,
+      });
+      this.$router.push({ name: "success" });
     },
     onClickSwapCurrencies() {
       [
@@ -155,7 +192,7 @@ export default {
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  width: 600px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -174,9 +211,10 @@ export default {
   background-color: inherit;
   border: none;
   fill: var(--primary-color);
+  cursor: pointer;
 }
-.btnCurrent-flex{
-  position: absolute;
-  top: 50%;
+.submit-btn {
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 </style>

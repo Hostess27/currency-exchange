@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <header class="header-color">
-      <div class="header header-flex">
+      <div class="header header-flex container">
         <router-link class="logo" to="/">
           <h1>DLExchanger</h1>
         </router-link>
@@ -16,7 +16,7 @@ export default {};
 </script>
 
 <style>
-.header-container{
+.header-container {
   padding-bottom: 30px;
 }
 .header-color {
